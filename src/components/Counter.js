@@ -1,6 +1,10 @@
 import React from 'react'
 
-function Counter({store, onIncrement, onDecrement}) {
+function Counter({store, onIncrement, onDecrement, onCounterChange}) {
+  const handleCounterChange = (e) => {
+    onCounterChange(e.target.value)
+  }
+
   return (
     <main>
       <section>
@@ -9,6 +13,7 @@ function Counter({store, onIncrement, onDecrement}) {
         </div>
         <button onClick={onIncrement}>Increment</button>
         <button onClick={onDecrement}>Decrement</button>
+        <input type='number' onChange={handleCounterChange} />
       </section>
     </main>
   )

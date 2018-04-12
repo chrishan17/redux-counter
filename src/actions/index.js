@@ -8,6 +8,12 @@ const actions = {
     return {
       type: 'DECREMENT'
     }
+  },
+  setCounter(value) {
+    return {
+      type: 'SET_COUNTER',
+      counter: value
+    }
   }
 }
 

@@ -15,6 +15,12 @@ class CounterContainer extends Component {
     store.dispatch(actions.decrease())
   }
 
+  onCounterChange(value) {
+    const counter = parseInt(value || 0, 10)
+    store.dispatch(actions.setCounter(counter))
+  }
+
+
   componentDidMount() {
     this.subScribe = store.subscribe(() => {
       const counter = store.getState().counter
@@ -28,7 +34,7 @@ class CounterContainer extends Component {
 
   render() {
     return (
-      <Counter store={store.getState()} onIncrement={this.onIncrement} onDecrement={this.onDecrement}/>
+      <Counter store={store.getState()} onIncrement={this.onIncrement} onDecrement={this.onDecrement} onCounterChange={this.onCounterChange}/>
     )
   }
 }
