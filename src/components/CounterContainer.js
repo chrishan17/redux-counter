@@ -3,23 +3,31 @@ import Counter from './Counter'
 import { createStore } from 'redux'
 import reducer from '../reducers/counter'
 import actions from '../actions'
+import connect from '../connect'
 
 const store = createStore(reducer, { counter: 0 }, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
 
 class CounterContainer extends Component {
-  onIncrement() {
-    store.dispatch(actions.increase())
+  mapDispatchToProps() {
+    return {
+      onIncrement() {
+        store.dispatch(actions.increase())
+      },
+      onDecrement() {
+        store.dispatch(actions.decrease())
+      },
+      onCounterChange(value) {
+        const counter = parseInt(value || 0, 10)
+        store.dispatch(actions.setCounter(counter))
+      },
+    }
   }
 
-  onDecrement() {
-    store.dispatch(actions.decrease())
+  mapStatetoProps() {
+    return {
+      counter: store.getState().counter
+    }
   }
-
-  onCounterChange(value) {
-    const counter = parseInt(value || 0, 10)
-    store.dispatch(actions.setCounter(counter))
-  }
-
 
   componentDidMount() {
     this.subScribe = store.subscribe(() => {
@@ -33,9 +41,7 @@ class CounterContainer extends Component {
   }
 
   render() {
-    return (
-      <Counter store={store.getState()} onIncrement={this.onIncrement} onDecrement={this.onDecrement} onCounterChange={this.onCounterChange}/>
-    )
+    return connect(this.mapStatetoProps, this.mapDispatchToProps)(Counter)
   }
 }
 
