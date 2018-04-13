@@ -13,7 +13,7 @@ function Counter({counter, onIncrement, onDecrement, onCounterChange}) {
         </div>
         <button onClick={onIncrement}>Increment</button>
         <button onClick={onDecrement}>Decrement</button>
-        <input type='number' onChange={handleCounterChange} />
+        <input type='number' onChange={handleCounterChange} value={counter}/>
       </section>
     </main>
   )
