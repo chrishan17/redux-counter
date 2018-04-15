@@ -1,13 +1,13 @@
 import { createStore, applyMiddleware, compose } from 'redux'
 import app from './reducers'
 import promiseMiddleware from 'redux-promise'
+import ReduxThunk from 'redux-thunk'
 
 const configureStore = () => {
   const logger = store => next => action => {
     console.log('before dispatch:', store.getState())
     let result = next(action)
     console.log('after dispatch:', store.getState())
-    console.log(result)
     return result
   }
 
@@ -17,7 +17,6 @@ const configureStore = () => {
     let result = next(action)
     console.log('next state', store.getState())
     console.groupEnd(action.type)
-    console.log(result)
     return result
   }
 
@@ -32,10 +31,17 @@ const configureStore = () => {
   //   }
   // }
 
+  // const myThunk = store => next => action => {
+  //   typeof action === 'function' ?
+  //     action(store.dispatch) :
+  //     next(action)
+  // }
+
   const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
   const store = createStore(app, composeEnhancers(applyMiddleware(
     promiseMiddleware,
     logger,
+    ReduxThunk,
     anotherLogger
   )))
 

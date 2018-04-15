@@ -13,8 +13,8 @@ const receiveCats = (catsUrl) => ({
   type: 'RECEIVE_CATS',
   cats: catsUrl
 })
-export const fetchUserCats = (userId) => {
-  return fetchUser(userId)
+export const fetchUserCats = userId => dispatch => {
+  fetchUser(userId)
     .then(response => response.json())
     .then(user => {
       const catPromises = user.cats.map(catId =>
@@ -22,6 +22,6 @@ export const fetchUserCats = (userId) => {
           .then(response => response.json())
           .then(cat => cat.imageUrl)
       )
-      return Promise.all(catPromises).then(receiveCats)
+      return Promise.all(catPromises).then((catsUrl) => dispatch(receiveCats(catsUrl)))
     })
 }
