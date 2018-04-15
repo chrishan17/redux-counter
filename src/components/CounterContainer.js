@@ -1,8 +1,8 @@
 import Counter from './Counter'
 import { connect } from 'react-redux'
-import actions from '../actions'
+import * as actions from '../actions'
 
-const mapStatetoProps = state => ({ counter: state.counter })
+const mapStatetoProps = (state) => ({ counter: state.counter })
 
 const mapDispatchToProps = dispatch => ({
   onIncrement() {

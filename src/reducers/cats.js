@@ -1,7 +1,7 @@
 const cats = (state = [], action) => {
   switch (action.type) {
-    case 'INCREMENT':
-      return state
+    case 'RECEIVE_CATS':
+      return action.cats
     default:
       return state
   }

@@ -1,20 +1,27 @@
-const actions = {
-  increase() {
-    return {
-      type: 'INCREMENT'
-    }
-  },
-  decrease() {
-    return {
-      type: 'DECREMENT'
-    }
-  },
-  setCounter(value) {
-    return {
-      type: 'SET_COUNTER',
-      counter: value
-    }
-  }
+import { fetchUser, fetchCats } from '../api'
+export const increase = () => ({
+  type: 'INCREMENT'
+})
+export const decrease = () => ({
+  type: 'DECREMENT'
+})
+export const setCounter = (value) => ({
+  type: 'SET_COUNTER',
+  counter: value
+})
+const receiveCats = (catsUrl) => ({
+  type: 'RECEIVE_CATS',
+  cats: catsUrl
+})
+export const fetchUserCats = (userId) => {
+  return fetchUser(userId)
+    .then(response => response.json())
+    .then(user => {
+      const catPromises = user.cats.map(catId =>
+        fetchCats(catId)
+          .then(response => response.json())
+          .then(cat => cat.imageUrl)
+      )
+      return Promise.all(catPromises).then(receiveCats)
+    })
 }
-
-export default actions
